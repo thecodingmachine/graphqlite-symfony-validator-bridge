@@ -4,12 +4,12 @@
 namespace TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers;
 
 
-use Symfony\Component\Validator\Constraints as Assertion;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
 use TheCodingMachine\GraphQLite\Annotations\Query;
 use TheCodingMachine\Graphqlite\Validator\Fixtures\Types\User;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assert;
+use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
 use TheCodingMachine\Graphqlite\Validator\ValidationFailedException;
 
 class UserController
@@ -40,7 +40,7 @@ class UserController
 
     /**
      * @Query
-     * @Assert(for="email", constraint=@Assertion\Email())
+     * @Assertion(for="email", constraint=@Assert\Email())
      */
     public function findByMail(string $email = 'a@a.com'): User
     {

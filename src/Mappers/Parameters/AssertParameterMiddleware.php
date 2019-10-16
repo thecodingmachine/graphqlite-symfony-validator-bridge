@@ -16,6 +16,7 @@ use TheCodingMachine\GraphQLite\Mappers\Parameters\ParameterMiddlewareInterface;
 use TheCodingMachine\GraphQLite\Parameters\InputTypeParameterInterface;
 use TheCodingMachine\GraphQLite\Parameters\ParameterInterface;
 use TheCodingMachine\Graphqlite\Validator\Annotations\Assert;
+use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
 use function array_map;
 use function array_merge;
 
@@ -40,23 +41,23 @@ class AssertParameterMiddleware implements ParameterMiddlewareInterface
 
     public function mapParameter(ReflectionParameter $refParameter, DocBlock $docBlock, ?Type $paramTagType, ParameterAnnotations $parameterAnnotations, ParameterHandlerInterface $next): ParameterInterface
     {
-        /** @var Assert[] $assertAnnotations */
-        $assertAnnotations = $parameterAnnotations->getAnnotationsByType(Assert::class);
+        /** @var Assertion[] $assertionAnnotations */
+        $assertionAnnotations = $parameterAnnotations->getAnnotationsByType(Assertion::class);
 
         $parameter = $next->mapParameter($refParameter, $docBlock, $paramTagType, $parameterAnnotations);
 
-        if (empty($assertAnnotations)) {
+        if (empty($assertionAnnotations)) {
             return $parameter;
         }
 
         if (! $parameter instanceof InputTypeParameterInterface) {
-            throw InvalidAssertAnnotationException::canOnlyValidateInputType($refParameter);
+            throw InvalidAssertionAnnotationException::canOnlyValidateInputType($refParameter);
         }
 
         // Let's wrap the ParameterInterface into a ParameterValidator.
-        $recursiveConstraints = array_map(static function (Assert $assertAnnotation) {
+        $recursiveConstraints = array_map(static function (Assertion $assertAnnotation) {
             return $assertAnnotation->getConstraint();
-        }, $assertAnnotations);
+        }, $assertionAnnotations);
         $constraints = array_merge(...$recursiveConstraints);
 
         return new ParameterValidator($parameter, $refParameter->getName(), $constraints, $this->constraintValidatorFactory, $this->validator, $this->translator);

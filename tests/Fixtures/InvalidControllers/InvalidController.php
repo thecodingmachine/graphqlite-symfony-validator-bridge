@@ -5,18 +5,15 @@ namespace TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers;
 
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Symfony\Component\Validator\Constraints as Assertion;
-use Symfony\Component\Validator\Validator\ValidatorInterface;
-use TheCodingMachine\GraphQLite\Annotations\Mutation;
+use Symfony\Component\Validator\Constraints as Assert;
 use TheCodingMachine\GraphQLite\Annotations\Query;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assert;
-use TheCodingMachine\Graphqlite\Validator\ValidationFailedException;
+use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
 
 class InvalidController
 {
     /**
      * @Query
-     * @Assert(for="$resolveInfo", constraint=@Assertion\Email())
+     * @Assertion(for="$resolveInfo", constraint=@Assert\Email())
      */
     public function invalid(ResolveInfo $resolveInfo): string
     {

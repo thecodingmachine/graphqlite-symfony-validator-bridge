@@ -7,7 +7,7 @@ namespace TheCodingMachine\Graphqlite\Validator\Mappers\Parameters;
 use Exception;
 use ReflectionParameter;
 
-class InvalidAssertAnnotationException extends Exception
+class InvalidAssertionAnnotationException extends Exception
 {
     public static function canOnlyValidateInputType(ReflectionParameter $refParameter): self
     {
