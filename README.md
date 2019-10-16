@@ -9,4 +9,4 @@
 
 A bridge between GraphQLite and the Symfony Validator component
 
-See [thecodingmachine/graphqlite](https://github.com/thecodingmachine/graphqlite)
+See [GraphQLite validation documentation](https://graphqlite.thecodingmachine.io/docs/validation)
