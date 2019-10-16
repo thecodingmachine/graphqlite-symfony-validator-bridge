@@ -20,7 +20,7 @@ use function ltrim;
  *   @Attribute("constraint", type = "Symfony\Component\Validator\Constraint[]|Symfony\Component\Validator\Constraint")
  * })
  */
-class Assert implements ParameterAnnotationInterface
+class Assertion implements ParameterAnnotationInterface
 {
     /** @var string */
     private $for;
