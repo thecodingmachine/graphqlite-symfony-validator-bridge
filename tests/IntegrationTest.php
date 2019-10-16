@@ -23,7 +23,7 @@ use TheCodingMachine\GraphQLite\Exceptions\WebonyxErrorHandler;
 use TheCodingMachine\GraphQLite\SchemaFactory;
 use TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers\UserController;
 use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\AssertParameterMiddleware;
-use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\InvalidAssertAnnotationException;
+use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
 use function var_dump;
 use function var_export;
 use const JSON_PRETTY_PRINT;
@@ -162,7 +162,7 @@ class IntegrationTest extends TestCase
         $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers');
         $schema = $schemaFactory->createSchema();
 
-        $this->expectException(InvalidAssertAnnotationException::class);
+        $this->expectException(InvalidAssertionAnnotationException::class);
         $this->expectExceptionMessage('In method TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers\InvalidController::invalid(), the @Assert annotation is targeting parameter "$resolveInfo". You cannot target this parameter because it is not part of the GraphQL Input type. You can only assert parameters coming from the end user.');
         $schema->validate();
     }

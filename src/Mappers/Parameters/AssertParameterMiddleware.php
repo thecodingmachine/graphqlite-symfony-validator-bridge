@@ -51,7 +51,7 @@ class AssertParameterMiddleware implements ParameterMiddlewareInterface
         }
 
         if (! $parameter instanceof InputTypeParameterInterface) {
-            throw InvalidAssertAnnotationException::canOnlyValidateInputType($refParameter);
+            throw InvalidAssertionAnnotationException::canOnlyValidateInputType($refParameter);
         }
 
         // Let's wrap the ParameterInterface into a ParameterValidator.
