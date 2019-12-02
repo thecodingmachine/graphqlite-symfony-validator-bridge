@@ -11,6 +11,9 @@ use GraphQL\Type\Schema;
 use Mouf\Picotainer\Picotainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
+use Symfony\Component\Cache\Adapter\ArrayAdapter;
+use Symfony\Component\Cache\Adapter\Psr16Adapter;
+use Symfony\Component\Cache\Psr16Cache;
 use Symfony\Component\Cache\Simple\ArrayCache;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
@@ -47,7 +50,7 @@ class IntegrationTest extends TestCase
             }
         ]);
 
-        $schemaFactory = new SchemaFactory(new ArrayCache(), new BasicAutoWiringContainer($container));
+        $schemaFactory = new SchemaFactory(new Psr16Cache(new ArrayAdapter()), new BasicAutoWiringContainer($container));
         $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers');
         $schemaFactory->addTypeNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Types');
         $schemaFactory->addParameterMiddleware(new AssertParameterMiddleware(new ContainerConstraintValidatorFactory($container), $container->get(ValidatorInterface::class), $container->get(TranslatorInterface::class)));
@@ -67,7 +70,7 @@ class IntegrationTest extends TestCase
 
         $queryString = '
         mutation {
-          createUser(email: "foo@fgdjkerbrtehrthjker.com", password: "short")  {
+          createUser(email: "foofgdjkerbrtehrthjker.com", password: "short")  {
             email
           }
         }
@@ -81,7 +84,7 @@ class IntegrationTest extends TestCase
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
         $errors = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
-        $this->assertSame('The email \'"foo@fgdjkerbrtehrthjker.com"\' is not a valid email.', $errors[0]['message']);
+        $this->assertSame('The email \'"foofgdjkerbrtehrthjker.com"\' is not a valid email.', $errors[0]['message']);
         $this->assertSame('email', $errors[0]['extensions']['field']);
         $this->assertSame('Validate', $errors[0]['extensions']['category']);
         $this->assertSame('This value is too short. It should have 8 characters or more.', $errors[1]['message']);
