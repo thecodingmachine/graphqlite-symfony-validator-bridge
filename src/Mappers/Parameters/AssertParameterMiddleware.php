@@ -15,7 +15,6 @@ use TheCodingMachine\GraphQLite\Mappers\Parameters\ParameterHandlerInterface;
 use TheCodingMachine\GraphQLite\Mappers\Parameters\ParameterMiddlewareInterface;
 use TheCodingMachine\GraphQLite\Parameters\InputTypeParameterInterface;
 use TheCodingMachine\GraphQLite\Parameters\ParameterInterface;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assert;
 use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
 use function array_map;
 use function array_merge;

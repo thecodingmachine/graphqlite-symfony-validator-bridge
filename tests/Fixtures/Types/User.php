@@ -13,8 +13,7 @@ class User
 {
     /**
      * @Assert\Email(
-     *     message = "The email '{{ value }}' is not a valid email.",
-     *     checkMX = true
+     *     message = "The email '{{ value }}' is not a valid email."
      * )
      */
     private $email;

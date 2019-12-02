@@ -19,7 +19,7 @@
   "require" : {
     "php" : ">=7.2",
     "thecodingmachine/graphqlite" : "~4.0.0",
-    "symfony/validator": "^4.0",
+    "symfony/validator": "^4 | ^5",
     "doctrine/annotations": "^1.6"
   },
   "require-dev": {
