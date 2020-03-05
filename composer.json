@@ -28,7 +28,7 @@
     "phpstan/phpstan": "^0.11.16",
     "php-coveralls/php-coveralls": "^2.1.0",
     "symfony/translation": "^4",
-    "doctrine/coding-standard": "^6.0"
+    "doctrine/coding-standard": "^6.0 || ^7.0"
   },
   "scripts": {
     "phpstan": "phpstan analyse src/ -c phpstan.neon --level=7 --no-progress",
