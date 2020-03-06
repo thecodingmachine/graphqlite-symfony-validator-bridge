@@ -52,6 +52,7 @@ class ValidationFailedException extends InvalidArgumentException implements Grap
      * If many exceptions are passed, they are bundled in the GraphQLAggregateException
      *
      * @param ConstraintViolationListInterface<ConstraintViolationInterface> $constraintViolationList
+     *
      * @throws ValidationFailedException
      */
     public static function throwException(ConstraintViolationListInterface $constraintViolationList): void
