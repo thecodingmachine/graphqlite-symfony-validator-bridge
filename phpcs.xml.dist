@@ -42,4 +42,11 @@
             <property name="spacesCountBeforeColon" value="0"/>
         </properties>
     </rule>
+
+    <!-- Disable PHP 7.4 type hints since we need to support PHP 7.2+ -->
+    <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
+        <properties>
+            <property name="enableNativeTypeHint" value="false"/>
+        </properties>
+    </rule>
 </ruleset>
