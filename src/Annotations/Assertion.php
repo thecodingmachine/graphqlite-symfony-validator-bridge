@@ -35,9 +35,11 @@ class Assertion implements ParameterAnnotationInterface
         if (! isset($values['for'])) {
             throw new BadMethodCallException('The @Assert annotation must be passed a target. For instance: "@Assert(for="$email", constraint=@Email)"');
         }
+
         if (! isset($values['constraint'])) {
             throw new BadMethodCallException('The @Assert annotation must be passed one or many constraints. For instance: "@Assert(for="$email", constraint=@Email)"');
         }
+
         $this->for = ltrim($values['for'], '$');
         $this->constraint = is_array($values['constraint']) ? $values['constraint'] : [ $values['constraint'] ];
     }
