@@ -18,7 +18,7 @@
   ],
   "require" : {
     "php" : ">=7.2",
-    "thecodingmachine/graphqlite" : "~4.0.0",
+    "thecodingmachine/graphqlite" : "^4.1.x-dev",
     "symfony/validator": "^4 | ^5",
     "doctrine/annotations": "^1.6"
   },
@@ -48,7 +48,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.0.x-dev"
+      "dev-master": "^4.1.x-dev"
     }
   },
   "minimum-stability": "dev",
