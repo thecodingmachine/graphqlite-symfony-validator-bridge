@@ -18,7 +18,7 @@
   ],
   "require" : {
     "php" : ">=7.2",
-    "thecodingmachine/graphqlite" : "^4.1",
+    "thecodingmachine/graphqlite" : "^5.0",
     "symfony/validator": "^4 | ^5",
     "doctrine/annotations": "^1.6"
   },
@@ -27,8 +27,8 @@
     "mouf/picotainer": "^1.1",
     "phpstan/phpstan": "^0.12.14",
     "php-coveralls/php-coveralls": "^2.1.0",
-    "symfony/translation": "^4",
-    "doctrine/coding-standard": "^7.0"
+    "symfony/translation": "^4 || ^5",
+    "doctrine/coding-standard": "^8.2 || ^9.0"
   },
   "scripts": {
     "phpstan": "phpstan analyse src/ -c phpstan.neon --level=7 --no-progress",
@@ -48,7 +48,7 @@
   },
   "extra": {
     "branch-alias": {
-      "dev-master": "4.1.x-dev"
+      "dev-master": "5.0.x-dev"
     }
   },
   "minimum-stability": "dev",
