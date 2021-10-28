@@ -5,31 +5,25 @@ namespace TheCodingMachine\GraphQLite\Validator;
 
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use GraphQL\Error\Debug;
+use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use Mouf\Picotainer\Picotainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
-use Symfony\Component\Cache\Adapter\Psr16Adapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Symfony\Component\Cache\Simple\ArrayCache;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ValidatorBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TheCodingMachine\GraphQLite\Containers\BasicAutoWiringContainer;
-use TheCodingMachine\GraphQLite\Containers\EmptyContainer;
 use TheCodingMachine\GraphQLite\Exceptions\WebonyxErrorHandler;
 use TheCodingMachine\GraphQLite\SchemaFactory;
 use TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers\UserController;
 use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\AssertParameterMiddleware;
 use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
-use function var_dump;
-use function var_export;
-use const JSON_PRETTY_PRINT;
 
 class IntegrationTest extends TestCase
 {
@@ -83,7 +77,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $errors = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
+        $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
         $this->assertSame('The email \'"foofgdjkerbrtehrthjker.com"\' is not a valid email.', $errors[0]['message']);
         $this->assertSame('email', $errors[0]['extensions']['field']);
         $this->assertSame('Validate', $errors[0]['extensions']['category']);
@@ -112,7 +106,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $errors = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
+        $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
 
         // TODO: find why message is not in French...
         $this->assertSame('This value is not a valid email address.', $errors[0]['message']);
@@ -135,7 +129,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $data = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('valid@valid.com', $data['findByMail']['email']);
 
         // Test default parameter
@@ -154,7 +148,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $data = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('a@a.com', $data['findByMail']['email']);
 
     }
