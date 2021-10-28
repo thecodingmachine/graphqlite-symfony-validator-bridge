@@ -1,6 +1,6 @@
 <?php
 
-namespace TheCodingMachine\Graphqlite\Validator\Annotations;
+namespace TheCodingMachine\GraphQLite\Validator\Annotations;
 
 use BadMethodCallException;
 use PHPUnit\Framework\TestCase;

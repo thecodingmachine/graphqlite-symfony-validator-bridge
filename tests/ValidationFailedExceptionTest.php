@@ -1,6 +1,6 @@
 <?php
 
-namespace TheCodingMachine\Graphqlite\Validator;
+namespace TheCodingMachine\GraphQLite\Validator;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolation;

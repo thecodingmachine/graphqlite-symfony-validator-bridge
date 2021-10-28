@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator\Annotations;
+namespace TheCodingMachine\GraphQLite\Validator\Annotations;
 
 use BadMethodCallException;
 use Symfony\Component\Validator\Constraint;

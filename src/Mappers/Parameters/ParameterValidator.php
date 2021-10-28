@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator\Mappers\Parameters;
+namespace TheCodingMachine\GraphQLite\Validator\Mappers\Parameters;
 
 use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\ResolveInfo;
@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Context\ExecutionContext;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TheCodingMachine\GraphQLite\Parameters\InputTypeParameterInterface;
-use TheCodingMachine\Graphqlite\Validator\ValidationFailedException;
+use TheCodingMachine\GraphQLite\Validator\ValidationFailedException;
 
 class ParameterValidator implements InputTypeParameterInterface
 {

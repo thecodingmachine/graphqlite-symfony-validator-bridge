@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator\Mappers\Parameters;
+namespace TheCodingMachine\GraphQLite\Validator\Mappers\Parameters;
 
 use Exception;
 use ReflectionParameter;

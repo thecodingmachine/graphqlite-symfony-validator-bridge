@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TheCodingMachine\Graphqlite\Validator;
+namespace TheCodingMachine\GraphQLite\Validator;
 
 
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -24,9 +24,9 @@ use TheCodingMachine\GraphQLite\Containers\BasicAutoWiringContainer;
 use TheCodingMachine\GraphQLite\Containers\EmptyContainer;
 use TheCodingMachine\GraphQLite\Exceptions\WebonyxErrorHandler;
 use TheCodingMachine\GraphQLite\SchemaFactory;
-use TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers\UserController;
-use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\AssertParameterMiddleware;
-use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
+use TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers\UserController;
+use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\AssertParameterMiddleware;
+use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
 use function var_dump;
 use function var_export;
 use const JSON_PRETTY_PRINT;
@@ -51,8 +51,8 @@ class IntegrationTest extends TestCase
         ]);
 
         $schemaFactory = new SchemaFactory(new Psr16Cache(new ArrayAdapter()), new BasicAutoWiringContainer($container));
-        $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers');
-        $schemaFactory->addTypeNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Types');
+        $schemaFactory->addControllerNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers');
+        $schemaFactory->addTypeNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\Types');
         $schemaFactory->addParameterMiddleware(new AssertParameterMiddleware(new ContainerConstraintValidatorFactory($container), $container->get(ValidatorInterface::class), $container->get(TranslatorInterface::class)));
 
         return $schemaFactory;
@@ -162,11 +162,11 @@ class IntegrationTest extends TestCase
     public function testException(): void
     {
         $schemaFactory = $this->getSchemaFactory();
-        $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers');
+        $schemaFactory->addControllerNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\InvalidControllers');
         $schema = $schemaFactory->createSchema();
 
         $this->expectException(InvalidAssertionAnnotationException::class);
-        $this->expectExceptionMessage('In method TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers\InvalidController::invalid(), the @Assert annotation is targeting parameter "$resolveInfo". You cannot target this parameter because it is not part of the GraphQL Input type. You can only assert parameters coming from the end user.');
+        $this->expectExceptionMessage('In method TheCodingMachine\GraphQLite\Validator\Fixtures\InvalidControllers\InvalidController::invalid(), the @Assert annotation is targeting parameter "$resolveInfo". You cannot target this parameter because it is not part of the GraphQL Input type. You can only assert parameters coming from the end user.');
         $schema->validate();
     }
 }

@@ -38,12 +38,12 @@
   },
   "autoload" : {
     "psr-4" : {
-      "TheCodingMachine\\Graphqlite\\Validator\\" : "src/"
+      "TheCodingMachine\\GraphQLite\\Validator\\" : "src/"
     }
   },
   "autoload-dev" : {
     "psr-4" : {
-      "TheCodingMachine\\Graphqlite\\Validator\\" : "tests/"
+      "TheCodingMachine\\GraphQLite\\Validator\\" : "tests/"
     }
   },
   "extra": {
