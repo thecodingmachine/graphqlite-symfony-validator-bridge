@@ -46,12 +46,12 @@ class ConstraintViolationException extends Exception implements GraphQLException
     {
         $extensions = [];
         $code = $this->violation->getCode();
-        if ($code !== null) {
+        if (! empty($code)) {
             $extensions['code'] = $code;
         }
 
         $propertyPath = $this->violation->getPropertyPath();
-        if ($propertyPath !== null) {
+        if (! empty($propertyPath)) {
             $extensions['field'] = $propertyPath;
         }
 
