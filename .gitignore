@@ -3,3 +3,4 @@
 /build
 .php_cs_cache
 .phpunit.result.cache
+.phpstan-cache
