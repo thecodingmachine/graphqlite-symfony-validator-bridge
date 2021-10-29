@@ -1,35 +1,29 @@
 <?php
 
 
-namespace TheCodingMachine\Graphqlite\Validator;
+namespace TheCodingMachine\GraphQLite\Validator;
 
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use GraphQL\Error\Debug;
+use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
 use Mouf\Picotainer\Picotainer;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Cache\Adapter\ArrayAdapter;
-use Symfony\Component\Cache\Adapter\Psr16Adapter;
 use Symfony\Component\Cache\Psr16Cache;
-use Symfony\Component\Cache\Simple\ArrayCache;
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Validator\ContainerConstraintValidatorFactory;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use Symfony\Component\Validator\ValidatorBuilder;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use TheCodingMachine\GraphQLite\Containers\BasicAutoWiringContainer;
-use TheCodingMachine\GraphQLite\Containers\EmptyContainer;
 use TheCodingMachine\GraphQLite\Exceptions\WebonyxErrorHandler;
 use TheCodingMachine\GraphQLite\SchemaFactory;
-use TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers\UserController;
-use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\AssertParameterMiddleware;
-use TheCodingMachine\Graphqlite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
-use function var_dump;
-use function var_export;
-use const JSON_PRETTY_PRINT;
+use TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers\UserController;
+use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\AssertParameterMiddleware;
+use TheCodingMachine\GraphQLite\Validator\Mappers\Parameters\InvalidAssertionAnnotationException;
 
 class IntegrationTest extends TestCase
 {
@@ -51,8 +45,8 @@ class IntegrationTest extends TestCase
         ]);
 
         $schemaFactory = new SchemaFactory(new Psr16Cache(new ArrayAdapter()), new BasicAutoWiringContainer($container));
-        $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers');
-        $schemaFactory->addTypeNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\Types');
+        $schemaFactory->addControllerNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers');
+        $schemaFactory->addTypeNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\Types');
         $schemaFactory->addParameterMiddleware(new AssertParameterMiddleware(new ContainerConstraintValidatorFactory($container), $container->get(ValidatorInterface::class), $container->get(TranslatorInterface::class)));
 
         return $schemaFactory;
@@ -83,7 +77,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $errors = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
+        $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
         $this->assertSame('The email \'"foofgdjkerbrtehrthjker.com"\' is not a valid email.', $errors[0]['message']);
         $this->assertSame('email', $errors[0]['extensions']['field']);
         $this->assertSame('Validate', $errors[0]['extensions']['category']);
@@ -112,7 +106,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $errors = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
+        $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
 
         // TODO: find why message is not in French...
         $this->assertSame('This value is not a valid email address.', $errors[0]['message']);
@@ -135,7 +129,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $data = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('valid@valid.com', $data['findByMail']['email']);
 
         // Test default parameter
@@ -154,7 +148,7 @@ class IntegrationTest extends TestCase
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
-        $data = $result->toArray(Debug::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('a@a.com', $data['findByMail']['email']);
 
     }
@@ -162,11 +156,11 @@ class IntegrationTest extends TestCase
     public function testException(): void
     {
         $schemaFactory = $this->getSchemaFactory();
-        $schemaFactory->addControllerNamespace('TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers');
+        $schemaFactory->addControllerNamespace('TheCodingMachine\GraphQLite\Validator\Fixtures\InvalidControllers');
         $schema = $schemaFactory->createSchema();
 
         $this->expectException(InvalidAssertionAnnotationException::class);
-        $this->expectExceptionMessage('In method TheCodingMachine\Graphqlite\Validator\Fixtures\InvalidControllers\InvalidController::invalid(), the @Assert annotation is targeting parameter "$resolveInfo". You cannot target this parameter because it is not part of the GraphQL Input type. You can only assert parameters coming from the end user.');
+        $this->expectExceptionMessage('In method TheCodingMachine\GraphQLite\Validator\Fixtures\InvalidControllers\InvalidController::invalid(), the @Assert annotation is targeting parameter "$resolveInfo". You cannot target this parameter because it is not part of the GraphQL Input type. You can only assert parameters coming from the end user.');
         $schema->validate();
     }
 }

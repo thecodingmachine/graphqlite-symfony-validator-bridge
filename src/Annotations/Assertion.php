@@ -2,11 +2,12 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator\Annotations;
+namespace TheCodingMachine\GraphQLite\Validator\Annotations;
 
 use BadMethodCallException;
 use Symfony\Component\Validator\Constraint;
 use TheCodingMachine\GraphQLite\Annotations\ParameterAnnotationInterface;
+
 use function is_array;
 use function ltrim;
 
@@ -41,7 +42,7 @@ class Assertion implements ParameterAnnotationInterface
         }
 
         $this->for = ltrim($values['for'], '$');
-        $this->constraint = is_array($values['constraint']) ? $values['constraint'] : [ $values['constraint'] ];
+        $this->constraint = is_array($values['constraint']) ? $values['constraint'] : [$values['constraint']];
     }
 
     public function getTarget(): string

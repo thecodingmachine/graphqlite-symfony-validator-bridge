@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator;
+namespace TheCodingMachine\GraphQLite\Validator;
 
 use Exception;
 use Symfony\Component\Validator\ConstraintViolationInterface;
@@ -46,12 +46,12 @@ class ConstraintViolationException extends Exception implements GraphQLException
     {
         $extensions = [];
         $code = $this->violation->getCode();
-        if ($code !== null) {
+        if (! empty($code)) {
             $extensions['code'] = $code;
         }
 
         $propertyPath = $this->violation->getPropertyPath();
-        if ($propertyPath !== null) {
+        if (! empty($propertyPath)) {
             $extensions['field'] = $propertyPath;
         }
 

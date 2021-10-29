@@ -1,7 +1,7 @@
 <?php
 
 
-namespace TheCodingMachine\Graphqlite\Validator\Fixtures\Types;
+namespace TheCodingMachine\GraphQLite\Validator\Fixtures\Types;
 use Symfony\Component\Validator\Constraints as Assert;
 use TheCodingMachine\GraphQLite\Annotations\Field;
 use TheCodingMachine\GraphQLite\Annotations\Type;

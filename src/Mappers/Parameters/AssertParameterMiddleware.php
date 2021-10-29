@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace TheCodingMachine\Graphqlite\Validator\Mappers\Parameters;
+namespace TheCodingMachine\GraphQLite\Validator\Mappers\Parameters;
 
 use phpDocumentor\Reflection\DocBlock;
 use phpDocumentor\Reflection\Type;
@@ -15,7 +15,8 @@ use TheCodingMachine\GraphQLite\Mappers\Parameters\ParameterHandlerInterface;
 use TheCodingMachine\GraphQLite\Mappers\Parameters\ParameterMiddlewareInterface;
 use TheCodingMachine\GraphQLite\Parameters\InputTypeParameterInterface;
 use TheCodingMachine\GraphQLite\Parameters\ParameterInterface;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
+use TheCodingMachine\GraphQLite\Validator\Annotations\Assertion;
+
 use function array_map;
 use function array_merge;
 

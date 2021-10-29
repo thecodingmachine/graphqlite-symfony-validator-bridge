@@ -5,7 +5,7 @@
 [![Coverage Status](https://coveralls.io/repos/thecodingmachine/graphqlite-symfony-validator-bridge/badge.svg?branch=master&service=github)](https://coveralls.io/github/thecodingmachine/graphqlite-symfony-validator-bridge?branch=master)
 
 
-# Graphqlite - Symfony validator bridge
+# GraphQLite - Symfony validator bridge
 
 A bridge between GraphQLite and the Symfony Validator component
 

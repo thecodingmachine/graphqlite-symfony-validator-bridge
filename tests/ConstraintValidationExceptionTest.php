@@ -1,10 +1,9 @@
 <?php
 
-namespace TheCodingMachine\Graphqlite\Validator;
+namespace TheCodingMachine\GraphQLite\Validator;
 
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Validator\ConstraintViolation;
-use Symfony\Component\Validator\ConstraintViolationList;
 
 class ConstraintValidationExceptionTest extends TestCase
 {

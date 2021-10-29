@@ -1,16 +1,16 @@
 <?php
 
 
-namespace TheCodingMachine\Graphqlite\Validator\Fixtures\Controllers;
+namespace TheCodingMachine\GraphQLite\Validator\Fixtures\Controllers;
 
 
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Validator\ValidatorInterface;
 use TheCodingMachine\GraphQLite\Annotations\Mutation;
 use TheCodingMachine\GraphQLite\Annotations\Query;
-use TheCodingMachine\Graphqlite\Validator\Fixtures\Types\User;
-use TheCodingMachine\Graphqlite\Validator\Annotations\Assertion;
-use TheCodingMachine\Graphqlite\Validator\ValidationFailedException;
+use TheCodingMachine\GraphQLite\Validator\Fixtures\Types\User;
+use TheCodingMachine\GraphQLite\Validator\Annotations\Assertion;
+use TheCodingMachine\GraphQLite\Validator\ValidationFailedException;
 
 class UserController
 {
