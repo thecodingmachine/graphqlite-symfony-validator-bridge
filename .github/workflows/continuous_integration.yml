@@ -14,10 +14,22 @@ jobs:
     runs-on: ubuntu-latest
 
     strategy:
-      matrix:
-        install-args: ['', '--prefer-lowest']
-        php-version: ['7.2', '7.3', '7.4', '8.0', '8.1']
       fail-fast: false
+      matrix:
+        php-version:
+          - '7.2'
+          - '7.3'
+          - '7.4'
+          - '8.0'
+          - '8.1'
+        dependencies:
+          - 'highest'
+        include:
+          - php-version: '7.2'
+            dependencies: 'lowest'
+          - php-version: '8.1'
+            dependencies: 'lowest'
+          - php-version: '8.1'
 
     steps:
       # Cancel previous runs of the same branch
@@ -32,30 +44,15 @@ jobs:
       - name: Install PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: "${{ matrix.php-version }}"
+          php-version: '${{ matrix.php-version }}'
           tools: composer:v2
 
-      - name: composer-cache-dir
-        id: composercache
-        run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
-
-      - name: composer-cache
-        uses: actions/cache@v2
+      - name: Install dependencies with Composer
+        uses: ramsey/composer-install@v1
         with:
-          path: ${{ steps.composercache.outputs.dir }}
-          key: composer-${{ hashFiles('**/composer.json') }}-${{ matrix.install-args }}
-          restore-keys: |
-            composer-${{ hashFiles('**/composer.json') }}-${{ matrix.install-args }}
-            composer-${{ hashFiles('**/composer.json') }}-
-            composer-
+          dependency-versions: '${{ matrix.dependencies }}'
 
-      - name: Install dependencies
-        run: |
-            composer update ${{ matrix.install-args }} --no-interaction --no-progress --prefer-dist
-        if: ${{ matrix.php-version != '8.0' }}
-
-      - name: Run tests with phpunit/phpunit
+      - name: Run PHPUnit
         run: vendor/bin/phpunit
 
       - name: Validate composer
@@ -64,11 +61,11 @@ jobs:
       - name: phpstan-cache
         uses: actions/cache@v2
         with:
-          key: phpstan-${{ matrix.php-version }}-${{ matrix.install-args }}-${{ github.ref }}-${{ github.sha }}
+          key: phpstan-${{ matrix.php-version }}-${{ matrix.dependencies }}-${{ github.ref }}-${{ github.sha }}
           path: .phpstan-cache
           restore-keys: |
-            phpstan-${{ matrix.php-version }}-${{ matrix.install-args }}-${{ github.ref }}-
-            phpstan-${{ matrix.php-version }}-${{ matrix.install-args }}-
+            phpstan-${{ matrix.php-version }}-${{ matrix.dependencies }}-${{ github.ref }}-
+            phpstan-${{ matrix.php-version }}-${{ matrix.dependencies }}-
             phpstan-${{ matrix.php-version }}-
             phpstan-
 
