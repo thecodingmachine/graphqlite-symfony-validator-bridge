@@ -24,12 +24,16 @@ jobs:
           - '8.1'
         dependencies:
           - 'highest'
+        phpunit-args:
+          - ''
         include:
           - php-version: '7.2'
             dependencies: 'lowest'
           - php-version: '8.1'
             dependencies: 'lowest'
           - php-version: '8.1'
+            coverage: 'pcov'
+            phpunit-args: '--coverage-clover coverage.xml'
 
     steps:
       # Cancel previous runs of the same branch
@@ -46,6 +50,7 @@ jobs:
         with:
           php-version: '${{ matrix.php-version }}'
           tools: composer:v2
+          coverage: '${{ matrix.coverage }}'
 
       - name: Install dependencies with Composer
         uses: ramsey/composer-install@v1
@@ -53,7 +58,7 @@ jobs:
           dependency-versions: '${{ matrix.dependencies }}'
 
       - name: Run PHPUnit
-        run: vendor/bin/phpunit
+        run: vendor/bin/phpunit ${{ matrix.phpunit-args }}
 
       - name: Validate composer
         run: composer validate --strict --no-check-lock
@@ -75,3 +80,9 @@ jobs:
       - name: Run php_codesniffer
         run: composer cs-check
         if: ${{ matrix.php-version == '7.2' }} # Do not suggest using features after 7.2
+
+      - name: Upload coverage results to Coveralls
+        run: vendor/bin/php-coveralls --coverage_clover=coverage.xml --json_path=coveralls.json -v
+        if: ${{ matrix.coverage }}
+        env:
+          COVERALLS_REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
