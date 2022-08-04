@@ -57,11 +57,12 @@ jobs:
         with:
           dependency-versions: '${{ matrix.dependencies }}'
 
-      - name: Run PHPUnit
-        run: vendor/bin/phpunit ${{ matrix.phpunit-args }}
-
       - name: Validate composer
         run: composer validate --strict --no-check-lock
+
+      - name: Run php_codesniffer
+        run: composer cs-check
+        if: ${{ matrix.php-version == '7.2' }} # Do not suggest using features after 7.2
 
       - name: phpstan-cache
         uses: actions/cache@v2
@@ -77,9 +78,8 @@ jobs:
       - name: Run phpstan
         run: composer phpstan
 
-      - name: Run php_codesniffer
-        run: composer cs-check
-        if: ${{ matrix.php-version == '7.2' }} # Do not suggest using features after 7.2
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit ${{ matrix.phpunit-args }}
 
       - name: Upload coverage results to Coveralls
         run: vendor/bin/php-coveralls --coverage_clover=coverage.xml --json_path=coveralls.json -v
