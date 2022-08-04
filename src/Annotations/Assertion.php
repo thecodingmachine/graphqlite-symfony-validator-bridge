@@ -8,7 +8,9 @@ use BadMethodCallException;
 use Symfony\Component\Validator\Constraint;
 use TheCodingMachine\GraphQLite\Annotations\ParameterAnnotationInterface;
 
+use function assert;
 use function is_array;
+use function is_string;
 use function ltrim;
 
 /**
@@ -41,8 +43,22 @@ class Assertion implements ParameterAnnotationInterface
             throw new BadMethodCallException('The @Assert annotation must be passed one or many constraints. For instance: "@Assert(for="$email", constraint=@Email)"');
         }
 
-        $this->for = ltrim($values['for'], '$');
-        $this->constraint = is_array($values['constraint']) ? $values['constraint'] : [$values['constraint']];
+        assert(is_string($values['for']));
+        $for = ltrim($values['for'], '$');
+
+        $constraints = [];
+        if (is_array($values['constraint'])) {
+            foreach ($values['constraint'] as $constraint) {
+                assert($constraint instanceof Constraint);
+                $constraints[] = $constraint;
+            }
+        } else {
+            assert($values['constraint'] instanceof Constraint);
+            $constraints = [$values['constraint']];
+        }
+
+        $this->for = $for;
+        $this->constraint = $constraints;
     }
 
     public function getTarget(): string

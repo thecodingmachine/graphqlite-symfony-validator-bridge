@@ -1,7 +1,7 @@
 [![Latest Stable Version](https://poser.pugx.org/thecodingmachine/graphqlite-symfony-validator-bridge/v/stable)](https://packagist.org/packages/thecodingmachine/graphqlite-symfony-validator-bridge)
 [![Latest Unstable Version](https://poser.pugx.org/thecodingmachine/graphqlite-symfony-validator-bridge/v/unstable)](https://packagist.org/packages/thecodingmachine/graphqlite-symfony-validator-bridge)
 [![License](https://poser.pugx.org/thecodingmachine/graphqlite-symfony-validator-bridge/license)](https://packagist.org/packages/thecodingmachine/graphqlite-symfony-validator-bridge)
-[![Build Status](https://travis-ci.org/thecodingmachine/graphqlite-symfony-validator-bridge.svg?branch=master)](https://travis-ci.org/thecodingmachine/graphqlite-symfony-validator-bridge)
+[![Build Status](https://github.com/thecodingmachine/graphqlite-symfony-validator-bridge/workflows/Continuous%20Integration/badge.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/thecodingmachine/graphqlite-symfony-validator-bridge/badge.svg?branch=master&service=github)](https://coveralls.io/github/thecodingmachine/graphqlite-symfony-validator-bridge?branch=master)
 
 

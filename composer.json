@@ -20,18 +20,18 @@
     "php" : ">=7.2",
     "thecodingmachine/graphqlite" : "^5.0",
     "symfony/validator": "^4.2 | ^5",
-    "doctrine/annotations": "^1.6"
+    "doctrine/annotations": "^1.13"
   },
   "require-dev": {
-    "phpunit/phpunit": "^8.4.1",
+    "phpunit/phpunit": "^8.5.28 | ^9.5",
     "mouf/picotainer": "^1.1",
-    "phpstan/phpstan": "^0.12.14",
+    "phpstan/phpstan": "^1.8.2",
     "php-coveralls/php-coveralls": "^2.1.0",
     "symfony/translation": "^4",
     "doctrine/coding-standard": "^9.0"
   },
   "scripts": {
-    "phpstan": "phpstan analyse src/ -c phpstan.neon --level=7 --no-progress",
+    "phpstan": "phpstan analyse --no-progress",
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "test": ["@cs-check", "@phpstan", "phpunit"]
@@ -44,6 +44,11 @@
   "autoload-dev" : {
     "psr-4" : {
       "TheCodingMachine\\GraphQLite\\Validator\\" : "tests/"
+    }
+  },
+  "config": {
+    "allow-plugins": {
+      "dealerdirect/phpcodesniffer-composer-installer": true
     }
   },
   "extra": {

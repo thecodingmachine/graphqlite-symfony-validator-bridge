@@ -1,5 +1,7 @@
+includes:
+	- vendor/phpstan/phpstan/conf/bleedingEdge.neon
 parameters:
-    ignoreErrors:
-
-#includes:
-#    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon
+    tmpDir: .phpstan-cache
+    paths:
+        - src
+    level: max
