@@ -58,6 +58,9 @@ jobs:
       - name: Run tests with phpunit/phpunit
         run: vendor/bin/phpunit
 
+      - name: Validate composer
+        run: composer validate --strict --no-check-lock
+
       - name: phpstan-cache
         uses: actions/cache@v2
         with:
