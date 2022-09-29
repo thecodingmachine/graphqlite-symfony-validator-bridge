@@ -35,7 +35,8 @@ class IntegrationTest extends TestCase
             },
             ValidatorInterface::class => function(ContainerInterface $container) {
                 $build = new ValidatorBuilder();
-                $build->enableAnnotationMapping(new AnnotationReader());
+                $build->enableAnnotationMapping();
+                $build->setDoctrineAnnotationReader(new AnnotationReader());
                 $build->setTranslator($container->get(TranslatorInterface::class));
                 return $build->getValidator();
             },
