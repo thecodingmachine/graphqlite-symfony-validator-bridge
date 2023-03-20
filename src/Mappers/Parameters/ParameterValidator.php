@@ -29,9 +29,7 @@ class ParameterValidator implements InputTypeParameterInterface
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param Constraint[] $constraints
-     */
+    /** @param Constraint[] $constraints */
     public function __construct(InputTypeParameterInterface $parameter, string $parameterName, array $constraints, ConstraintValidatorFactoryInterface $constraintValidatorFactory, ValidatorInterface $validator, TranslatorInterface $translator)
     {
         $this->parameter = $parameter;
@@ -48,7 +46,7 @@ class ParameterValidator implements InputTypeParameterInterface
      *
      * @return mixed
      */
-    public function resolve(?object $source, array $args, $context, ResolveInfo $info)
+    public function resolve(object|null $source, array $args, $context, ResolveInfo $info)
     {
         $value = $this->parameter->resolve($source, $args, $context, $info);
 
@@ -79,9 +77,7 @@ class ParameterValidator implements InputTypeParameterInterface
         return $this->parameter->hasDefaultValue();
     }
 
-    /**
-     * @return mixed
-     */
+    /** @return mixed */
     public function getDefaultValue()
     {
         return $this->parameter->getDefaultValue();

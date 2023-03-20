@@ -13,24 +13,13 @@ env:
 matrix:
   fast_finish: true
   include:
-      # Test the latest stable release
-    - php: 7.2
-    - php: 8.0
-      env: COVERAGE=true PHPUNIT_FLAGS="-v --coverage-text"
-
       # Test LTS versions.
-    - php: 8.0
-      env: DEPENDENCIES="symfony/lts:^4"
-
-      # Latest commit to master
-    - php: 8.0
-      env: STABILITY="dev"
+    - php: 8.1
+      env: DEPENDENCIES="symfony/^6"
 
   allow_failures:
     # Minimum supported dependencies with the latest and oldest PHP version
-    - php: 8.0
-      env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
-    - php: 7.2
+    - php: 8.1
       env: COMPOSER_FLAGS="--prefer-stable --prefer-lowest" SYMFONY_DEPRECATIONS_HELPER="weak_vendors"
     # Dev-master is allowed to fail.
     - env: STABILITY="dev"

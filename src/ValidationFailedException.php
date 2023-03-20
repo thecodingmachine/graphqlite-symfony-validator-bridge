@@ -16,12 +16,11 @@ class ValidationFailedException extends InvalidArgumentException implements Grap
     /** @var ConstraintViolationException[] */
     private $exceptions = [];
 
-    /**
-     * @param ConstraintViolationListInterface<ConstraintViolationInterface> $constraintViolationList
-     */
+    /** @param ConstraintViolationListInterface<ConstraintViolationInterface> $constraintViolationList */
     public function __construct(ConstraintViolationListInterface $constraintViolationList)
     {
         parent::__construct('Validation failed:', 400);
+
         foreach ($constraintViolationList as $constraintViolation) {
             $this->add($constraintViolation);
         }
@@ -33,9 +32,7 @@ class ValidationFailedException extends InvalidArgumentException implements Grap
         $this->message .= "\n" . $violation->getMessage();
     }
 
-    /**
-     * @return (ClientAware&Throwable)[]
-     */
+    /** @return (ClientAware&Throwable)[] */
     public function getExceptions(): array
     {
         return $this->exceptions;

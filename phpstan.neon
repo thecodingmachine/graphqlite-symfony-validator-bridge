@@ -1,5 +1,10 @@
 parameters:
     ignoreErrors:
 
+    excludePaths:
+            - vendor
+            - cache
+            - .phpstan-cache
+
 #includes:
 #    - vendor/thecodingmachine/phpstan-strict-rules/phpstan-strict-rules.neon

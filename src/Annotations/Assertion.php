@@ -28,9 +28,7 @@ class Assertion implements ParameterAnnotationInterface
     /** @var Constraint[] */
     private $constraint;
 
-    /**
-     * @param array<string, mixed> $values
-     */
+    /** @param array<string, mixed> $values */
     public function __construct(array $values)
     {
         if (! isset($values['for'])) {
@@ -50,9 +48,7 @@ class Assertion implements ParameterAnnotationInterface
         return $this->for;
     }
 
-    /**
-     * @return Constraint[]
-     */
+    /** @return Constraint[] */
     public function getConstraint(): array
     {
         return $this->constraint;

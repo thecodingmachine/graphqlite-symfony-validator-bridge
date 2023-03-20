@@ -16,6 +16,7 @@ class ConstraintViolationException extends Exception implements GraphQLException
     public function __construct(ConstraintViolationInterface $violation)
     {
         parent::__construct((string) $violation->getMessage(), 400);
+
         $this->violation = $violation;
     }
 

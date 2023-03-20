@@ -39,7 +39,7 @@ class AssertParameterMiddleware implements ParameterMiddlewareInterface
         $this->translator = $translator;
     }
 
-    public function mapParameter(ReflectionParameter $refParameter, DocBlock $docBlock, ?Type $paramTagType, ParameterAnnotations $parameterAnnotations, ParameterHandlerInterface $next): ParameterInterface
+    public function mapParameter(ReflectionParameter $refParameter, DocBlock $docBlock, Type|null $paramTagType, ParameterAnnotations $parameterAnnotations, ParameterHandlerInterface $next): ParameterInterface
     {
         /** @var Assertion[] $assertionAnnotations */
         $assertionAnnotations = $parameterAnnotations->getAnnotationsByType(Assertion::class);
