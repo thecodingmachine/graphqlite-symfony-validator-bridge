@@ -13,10 +13,9 @@ class ConstraintValidationExceptionTest extends TestCase
         $exception = new ConstraintViolationException(new ConstraintViolation('foo', 'foo {bar}', ['bar' => 'baz'], null, null, 'invalidValue', null, 'myCode'));
         $this->assertSame(400, $exception->getCode());
         $this->assertTrue($exception->isClientSafe());
-        $this->assertSame('Validate', $exception->getCategory());
-        $this->assertSame(['code' => 'myCode'], $exception->getExtensions());
+        $this->assertSame(['category' => 'Validate', 'code' => 'myCode'], $exception->getExtensions());
 
         $exception = new ConstraintViolationException(new ConstraintViolation('foo', 'foo {bar}', ['bar' => 'baz'], null, null, 'invalidValue'));
-        $this->assertSame([], $exception->getExtensions());
+        $this->assertSame(['category' => 'Validate'], $exception->getExtensions());
     }
 }
