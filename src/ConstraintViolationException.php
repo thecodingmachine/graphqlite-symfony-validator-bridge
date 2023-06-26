@@ -16,6 +16,7 @@ class ConstraintViolationException extends Exception implements GraphQLException
     public function __construct(ConstraintViolationInterface $violation)
     {
         parent::__construct((string) $violation->getMessage(), 400);
+
         $this->violation = $violation;
     }
 
@@ -28,23 +29,13 @@ class ConstraintViolationException extends Exception implements GraphQLException
     }
 
     /**
-     * Returns string describing a category of the error.
-     *
-     * Value "graphql" is reserved for errors produced by query parsing or validation, do not use it.
-     */
-    public function getCategory(): string
-    {
-        return 'Validate';
-    }
-
-    /**
      * Returns the "extensions" object attached to the GraphQL error.
      *
      * @return array<string, mixed>
      */
     public function getExtensions(): array
     {
-        $extensions = [];
+        $extensions = ['category' => 'Validate'];
         $code = $this->violation->getCode();
         if (! empty($code)) {
             $extensions['code'] = $code;

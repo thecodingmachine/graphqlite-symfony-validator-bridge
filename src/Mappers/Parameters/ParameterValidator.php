@@ -6,6 +6,7 @@ namespace TheCodingMachine\GraphQLite\Validator\Mappers\Parameters;
 
 use GraphQL\Type\Definition\InputType;
 use GraphQL\Type\Definition\ResolveInfo;
+use GraphQL\Type\Definition\Type;
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidatorFactoryInterface;
 use Symfony\Component\Validator\Context\ExecutionContext;
@@ -29,9 +30,7 @@ class ParameterValidator implements InputTypeParameterInterface
     /** @var TranslatorInterface */
     private $translator;
 
-    /**
-     * @param Constraint[] $constraints
-     */
+    /** @param Constraint[] $constraints */
     public function __construct(InputTypeParameterInterface $parameter, string $parameterName, array $constraints, ConstraintValidatorFactoryInterface $constraintValidatorFactory, ValidatorInterface $validator, TranslatorInterface $translator)
     {
         $this->parameter = $parameter;
@@ -42,13 +41,8 @@ class ParameterValidator implements InputTypeParameterInterface
         $this->translator = $translator;
     }
 
-    /**
-     * @param array<string, mixed> $args
-     * @param mixed $context
-     *
-     * @return mixed
-     */
-    public function resolve(?object $source, array $args, $context, ResolveInfo $info)
+    /** @param array<string, mixed> $args */
+    public function resolve(object|null $source, array $args, mixed $context, ResolveInfo $info): mixed
     {
         $value = $this->parameter->resolve($source, $args, $context, $info);
 
@@ -69,7 +63,7 @@ class ParameterValidator implements InputTypeParameterInterface
         return $value;
     }
 
-    public function getType(): InputType
+    public function getType(): InputType&Type
     {
         return $this->parameter->getType();
     }
@@ -79,10 +73,7 @@ class ParameterValidator implements InputTypeParameterInterface
         return $this->parameter->hasDefaultValue();
     }
 
-    /**
-     * @return mixed
-     */
-    public function getDefaultValue()
+    public function getDefaultValue(): mixed
     {
         return $this->parameter->getDefaultValue();
     }
