@@ -77,4 +77,14 @@ class ParameterValidator implements InputTypeParameterInterface
     {
         return $this->parameter->getDefaultValue();
     }
+
+    public function getName(): string
+    {
+        return $this->parameter->getName();
+    }
+
+    public function getDescription(): string
+    {
+        return $this->parameter->getDescription();
+    }
 }

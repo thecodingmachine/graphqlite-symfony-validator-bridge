@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TheCodingMachine\GraphQLite\Validator;
 
 use PHPUnit\Framework\TestCase;
@@ -7,8 +9,7 @@ use Symfony\Component\Validator\ConstraintViolation;
 
 class ConstraintValidationExceptionTest extends TestCase
 {
-
-    public function testException()
+    public function testException(): void
     {
         $exception = new ConstraintViolationException(new ConstraintViolation('foo', 'foo {bar}', ['bar' => 'baz'], null, null, 'invalidValue', null, 'myCode'));
         $this->assertSame(400, $exception->getCode());
