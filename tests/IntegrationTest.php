@@ -1,10 +1,9 @@
 <?php
 
+declare(strict_types=1);
 
 namespace TheCodingMachine\GraphQLite\Validator;
 
-
-use Doctrine\Common\Annotations\AnnotationReader;
 use GraphQL\Error\DebugFlag;
 use GraphQL\GraphQL;
 use GraphQL\Type\Schema;
@@ -30,19 +29,19 @@ class IntegrationTest extends TestCase
     private function getSchemaFactory(): SchemaFactory
     {
         $container = new Picotainer([
-            TranslatorInterface::class => function(ContainerInterface $container) {
+            TranslatorInterface::class => static function (ContainerInterface $container) {
                 return new Translator('fr_FR');
             },
-            ValidatorInterface::class => function(ContainerInterface $container) {
+            ValidatorInterface::class => static function (ContainerInterface $container) {
                 $build = new ValidatorBuilder();
-                $build->enableAnnotationMapping();
-                $build->setDoctrineAnnotationReader(new AnnotationReader());
+                $build->enableAttributeMapping();
                 $build->setTranslator($container->get(TranslatorInterface::class));
+
                 return $build->getValidator();
             },
-            UserController::class => function(ContainerInterface $container) {
+            UserController::class => static function (ContainerInterface $container) {
                 return new UserController($container->get(ValidatorInterface::class));
-            }
+            },
         ]);
 
         $schemaFactory = new SchemaFactory(new Psr16Cache(new ArrayAdapter()), new BasicAutoWiringContainer($container));
@@ -73,7 +72,7 @@ class IntegrationTest extends TestCase
 
         $result = GraphQL::executeQuery(
             $schema,
-            $queryString
+            $queryString,
         );
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
@@ -102,7 +101,7 @@ class IntegrationTest extends TestCase
 
         $result = GraphQL::executeQuery(
             $schema,
-            $queryString
+            $queryString,
         );
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
@@ -114,7 +113,6 @@ class IntegrationTest extends TestCase
         $this->assertSame('email', $errors[0]['extensions']['field']);
         $this->assertSame('Validate', $errors[0]['extensions']['category']);
 
-
         $queryString = '
         {
           findByMail(email: "valid@valid.com")  {
@@ -125,7 +123,7 @@ class IntegrationTest extends TestCase
 
         $result = GraphQL::executeQuery(
             $schema,
-            $queryString
+            $queryString,
         );
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
@@ -144,14 +142,13 @@ class IntegrationTest extends TestCase
 
         $result = GraphQL::executeQuery(
             $schema,
-            $queryString
+            $queryString,
         );
         $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
         $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
 
         $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('a@a.com', $data['findByMail']['email']);
-
     }
 
     public function testException(): void

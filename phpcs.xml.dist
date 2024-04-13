@@ -11,7 +11,7 @@
 
     <!-- Directories to be checked -->
     <file>src</file>
-    <!-- <file>tests</file> -->
+    <file>tests</file>
 
     <!-- Include full Doctrine Coding Standard -->
     <rule ref="Doctrine">
