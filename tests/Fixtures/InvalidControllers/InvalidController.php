@@ -12,9 +12,10 @@ use TheCodingMachine\GraphQLite\Validator\Annotations\Assertion;
 class InvalidController
 {
     #[Query]
-    #[Assertion(for: '$resolveInfo', constraint: new Assert\Email())]
-    public function invalid(ResolveInfo $resolveInfo): string
-    {
+    public function invalid(
+        #[Assertion(for: '$resolveInfo', constraint: new Assert\Email())]
+        ResolveInfo $resolveInfo,
+    ): string {
         return 'foo';
     }
 }
