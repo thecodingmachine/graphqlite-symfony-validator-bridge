@@ -52,6 +52,12 @@ class Assertion implements ParameterAnnotationInterface
         $this->constraint = is_array($constraint) ? $constraint : [$constraint];
 
         if (null !== $for) {
+            trigger_error(
+                "Using #[Assertion(for='" . $for . "', constaint='...')] on methods is deprecated in favor " .
+                "of #[Assertion(constraint='...')] the parameter itself.",
+                E_USER_DEPRECATED,
+            );
+
             $this->for = ltrim($for, '$');
         }
     }
