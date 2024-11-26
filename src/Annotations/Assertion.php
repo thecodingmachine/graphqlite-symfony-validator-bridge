@@ -11,6 +11,9 @@ use TheCodingMachine\GraphQLite\Annotations\ParameterAnnotationInterface;
 
 use function is_array;
 use function ltrim;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Use this annotation to validate a parameter for a query or mutation.
@@ -29,7 +32,7 @@ use function ltrim;
 #[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_PARAMETER)]
 class Assertion implements ParameterAnnotationInterface
 {
-    private ?string $for = null;
+    private string|null $for = null;
     /** @var Constraint[] */
     private array $constraint;
 
@@ -51,15 +54,17 @@ class Assertion implements ParameterAnnotationInterface
 
         $this->constraint = is_array($constraint) ? $constraint : [$constraint];
 
-        if (null !== $for) {
-            trigger_error(
-                "Using #[Assertion(for='" . $for . "', constaint='...')] on methods is deprecated in favor " .
-                "of #[Assertion(constraint='...')] the parameter itself.",
-                E_USER_DEPRECATED,
-            );
-
-            $this->for = ltrim($for, '$');
+        if ($for === null) {
+            return;
         }
+
+        trigger_error(
+            "Using #[Assertion(for='" . $for . "', constaint='...')] on methods is deprecated in favor " .
+            "of #[Assertion(constraint='...')] the parameter itself.",
+            E_USER_DEPRECATED,
+        );
+
+        $this->for = ltrim($for, '$');
     }
 
     public function getTarget(): string
