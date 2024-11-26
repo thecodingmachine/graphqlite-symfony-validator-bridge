@@ -30,7 +30,7 @@
     "doctrine/coding-standard": "^11.1|^12.0"
   },
   "scripts": {
-    "phpstan": "phpstan analyse src/ -c phpstan.neon --level=7 --no-progress",
+    "phpstan": "phpstan analyse --no-progress",
     "cs-check": "phpcs",
     "cs-fix": "phpcbf",
     "test": ["@cs-check", "@phpstan", "phpunit"]
