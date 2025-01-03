@@ -11,9 +11,16 @@ use TheCodingMachine\GraphQLite\Annotations\ParameterAnnotationInterface;
 
 use function is_array;
 use function ltrim;
+use function trigger_error;
+
+use const E_USER_DEPRECATED;
 
 /**
  * Use this annotation to validate a parameter for a query or mutation.
+ *
+ * Note 1: using this attribute as a target to the method (not parameter) is deprecated and will be removed in 8.0.
+ * Note 2: support for `doctrine/annotations` will be removed in 8.0.
+ * Note 3: this class won't implement `ParameterAnnotationInterface` in 8.0.
  *
  * @Annotation
  * @Target({"METHOD"})
@@ -22,10 +29,10 @@ use function ltrim;
  *   @Attribute("constraint", type = "Symfony\Component\Validator\Constraint[]|Symfony\Component\Validator\Constraint")
  * })
  */
-#[Attribute(Attribute::TARGET_METHOD)]
+#[Attribute(Attribute::TARGET_METHOD | Attribute::TARGET_PARAMETER)]
 class Assertion implements ParameterAnnotationInterface
 {
-    private string $for;
+    private string|null $for = null;
     /** @var Constraint[] */
     private array $constraint;
 
@@ -40,20 +47,32 @@ class Assertion implements ParameterAnnotationInterface
     ) {
         $for = $for ?? $values['for'] ?? null;
         $constraint = $constraint ?? $values['constraint'] ?? null;
-        if ($for === null) {
-            throw new BadMethodCallException('The Assert attribute must be passed a target. For instance: "#[Assert(for: "$email", constraint: new Email())"');
-        }
 
         if ($constraint === null) {
-            throw new BadMethodCallException('The Assert attribute must be passed one or many constraints. For instance: "#[Assert(for: "$email", constraint: new Email())"');
+            throw new BadMethodCallException('The Assertion attribute must be passed one or many constraints. For instance: "#[Assertion(constraint: new Email())"');
         }
 
-        $this->for = ltrim($for, '$');
         $this->constraint = is_array($constraint) ? $constraint : [$constraint];
+
+        if ($for === null) {
+            return;
+        }
+
+        trigger_error(
+            "Using #[Assertion(for='" . $for . "', constaint='...')] on methods is deprecated in favor " .
+            "of #[Assertion(constraint='...')] the parameter itself.",
+            E_USER_DEPRECATED,
+        );
+
+        $this->for = ltrim($for, '$');
     }
 
     public function getTarget(): string
     {
+        if ($this->for === null) {
+            throw new BadMethodCallException('The Assertion attribute must be passed a target. For instance: "#[Assertion(for: "$email", constraint: new Email())"');
+        }
+
         return $this->for;
     }
 

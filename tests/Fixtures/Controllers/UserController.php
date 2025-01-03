@@ -35,8 +35,17 @@ class UserController
 
     #[Query]
     #[Assertion(for: '$email', constraint: new Assert\Email())]
-    public function findByMail(string $email = 'a@a.com'): User
+    public function findByMailTargetMethod(string $email = 'a@a.com'): User
     {
+        // deprecated way of using the Assertion annotation - as a target of the method
+        return new User($email, 'foo');
+    }
+
+    #[Query]
+    public function findByMail(
+        #[Assertion(constraint: new Assert\Email())]
+        string $email = 'a@a.com',
+    ): User {
         return new User($email, 'foo');
     }
 }

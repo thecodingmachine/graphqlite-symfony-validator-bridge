@@ -108,7 +108,6 @@ class IntegrationTest extends TestCase
 
         $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
 
-        // TODO: find why message is not in French...
         $this->assertSame('This value is not a valid email address.', $errors[0]['message']);
         $this->assertSame('email', $errors[0]['extensions']['field']);
         $this->assertSame('Validate', $errors[0]['extensions']['category']);
@@ -149,6 +148,70 @@ class IntegrationTest extends TestCase
 
         $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
         $this->assertSame('a@a.com', $data['findByMail']['email']);
+    }
+
+    public function testEndToEndAssertForDeprecatedWay(): void
+    {
+        $schema = $this->getSchema();
+        $schema->assertValid();
+
+        $queryString = '
+        {
+          findByMailTargetMethod(email: "notvalid")  {
+            email
+          }
+        }
+        ';
+
+        $result = GraphQL::executeQuery(
+            $schema,
+            $queryString,
+        );
+        $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
+        $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
+
+        $errors = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['errors'];
+
+        $this->assertSame('This value is not a valid email address.', $errors[0]['message']);
+        $this->assertSame('email', $errors[0]['extensions']['field']);
+        $this->assertSame('Validate', $errors[0]['extensions']['category']);
+
+        $queryString = '
+        {
+          findByMailTargetMethod(email: "valid@valid.com")  {
+            email
+          }
+        }
+        ';
+
+        $result = GraphQL::executeQuery(
+            $schema,
+            $queryString,
+        );
+        $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
+        $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
+
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $this->assertSame('valid@valid.com', $data['findByMailTargetMethod']['email']);
+
+        // Test default parameter
+        $queryString = '
+        {
+          findByMailTargetMethod  {
+            email
+          }
+        }
+        ';
+
+        $result = GraphQL::executeQuery(
+            $schema,
+            $queryString,
+        );
+        $result->setErrorsHandler([WebonyxErrorHandler::class, 'errorHandler']);
+        $result->setErrorFormatter([WebonyxErrorHandler::class, 'errorFormatter']);
+
+        $data = $result->toArray(DebugFlag::RETHROW_UNSAFE_EXCEPTIONS)['data'];
+        $this->assertSame('a@a.com', $data['findByMailTargetMethod']['email']);
     }
 
     public function testException(): void
